@@ -24,6 +24,12 @@ export const editIconStyle = css`
     opacity: 0.8;
 `;
 
+export const deleteButtonStyle = css`
+    ${baseButtonStyle}
+    background-color: #ec644b;
+    color:#fff;
+`;
+
 export const saveButtonStyle = css`
     ${baseButtonStyle}
     background-color: rgb(235, 255, 239);
@@ -35,4 +41,9 @@ export const cancelButtonStyle = css`
     ${baseButtonStyle}
     background-color: rgb(247, 247, 247);
     color: rgba(49, 53, 59, 0.76);
+`;
+
+export const addExpButtonStyle = css`
+    ${saveButtonStyle}
+    width: 500px;
 `;

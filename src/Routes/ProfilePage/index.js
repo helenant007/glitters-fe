@@ -4,7 +4,7 @@ import Header from './Header';
 import WorkExperience from './WorkExperience';
 import LoadingPage from '../LoadingPage';
 
-import { editButtonStyle, editIconStyle, saveButtonStyle, cancelButtonStyle } from './style';
+import { editButtonStyle, editIconStyle, deleteButtonStyle, saveButtonStyle, cancelButtonStyle, addExpButtonStyle } from './style';
 import editIcon from './assets/pencil-icon.png';
 
 export const EditButton = ({ onClick }) => {
@@ -13,6 +13,24 @@ export const EditButton = ({ onClick }) => {
     }
     return (
         <div className={editButtonStyle} onClick={handleClick}><span>Edit</span><img src={editIcon} alt="Edit" className={editIconStyle} /></div>
+    );
+}
+
+export const DeleteButton = ({ onClick }) => {
+    function handleClick() {
+        onClick()
+    }
+    return (
+        <div className={deleteButtonStyle} onClick={handleClick}><span>Delete</span></div>
+    );
+}
+
+export const AddExperienceButton = ({ onClick }) => {
+    function handleClick() {
+        onClick()
+    }
+    return (
+        <div className={addExpButtonStyle} onClick={handleClick}><span>Add New Experience</span></div>
     );
 }
 
@@ -47,16 +65,11 @@ const ProfilePage = () => {
         });
     }, [history, slug])
 
-    function handleEditHeaderSection({ name, dob }) {
-        const updatedProfileData = {
-            ...profileData,
-            name,
-            dob,
-        }
-        setProfileData(updatedProfileData); // offline-first
+    function updateProfileData(profile) {
+        setProfileData(profile);
         fetch(`https://glitters-be.herokuapp.com/profile/${slug}`,
             {
-                method: 'post', body: JSON.stringify(updatedProfileData), headers: {
+                method: 'post', body: JSON.stringify(profile), headers: {
                     "Content-Type": "application/json"
                 }
             }
@@ -65,12 +78,59 @@ const ProfilePage = () => {
         })
     }
 
+    function handleEditHeaderSection({ name, dob }) {
+        updateProfileData({
+            ...profileData,
+            name,
+            dob,
+        });
+    }
+
+    function handleWorkExpSection({ idx, company, endDate, jobDescription, jobTitle, startDate, }) {
+        const workExperiences = [...profileData.workExperiences];
+        workExperiences[idx] = {
+            ...profileData.workExperiences[idx],
+            company,
+            endDate: endDate === '' ? null : endDate,
+            jobDescription,
+            jobTitle,
+            startDate
+        };
+        const updatedProfileData = {
+            ...profileData,
+            workExperiences,
+        }
+        updateProfileData(updatedProfileData);
+    }
+
+    function handleAddExperience() {
+        const updatedProfileData = {
+            ...profileData,
+            workExperiences: [...profileData.workExperiences, {
+                company: 'New Company',
+                "companyLogo": "https://images.glints.com/unsafe/1200x0/glints-dashboard.s3.amazonaws.com/company-logo/805d861f71c172ce260a247028cb0718.png",
+                endDate: null,
+                startDate: new Date().toISOString().split('T')[0],
+                jobTitle:'New Job Title',
+                jobDescription:'New Job Description',
+            }],
+        }
+        updateProfileData(updatedProfileData);
+    }
+
+    function handleDeleteExperience(idx) {
+        updateProfileData({
+            ...profileData,
+            workExperiences: profileData.workExperiences.filter((_experience,index) => index !== idx)
+        })
+    }
+
     if (profileData === null) return <LoadingPage />;
 
     return (
         <div>
             <Header {...profileData} handleEditHeaderSection={handleEditHeaderSection} />
-            <WorkExperience workExperiences={profileData.workExperiences} />
+            <WorkExperience workExperiences={profileData.workExperiences} handleWorkExpSection={handleWorkExpSection} handleAddExperience={handleAddExperience} handleDeleteExperience={handleDeleteExperience} />
         </div>
     )
 
