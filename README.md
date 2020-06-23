@@ -4,8 +4,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 This is a simple editable profile page that represents the members' basic information and work experience.
 
 Available Pages:
- - Helen's Profile Page (/helen)
- - Alsyi's Profile Page (/alsyi)
+ - Helen's Profile Page (https://glitters-fe.herokuapp.com/profile/helen)
+ - Alsyi's Profile Page (https://glitters-fe.herokuapp.com/profile/alsyi)
+ - Profile Not Exist Page (https://glitters-fe.herokuapp.com/profile/not-exist)
 
 For edit profile, just click the Edit Icon that available in every section. This profile page assume that all the fields in edit profile form is correctly filled, no validation added.
 
