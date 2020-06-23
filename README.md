@@ -2,6 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## GLITTERS
 This is a simple editable profile page that represents the members' basic information and work experience.
+Served in Heroku: https://glitters-fe.herokuapp.com/ but only several pages be accessed, listed below.
+For mock backend also served in Heroku: https://glitters-be.herokuapp.com/
 
 Available Pages:
  - Helen's Profile Page (https://glitters-fe.herokuapp.com/profile/helen)
